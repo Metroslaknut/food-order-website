@@ -5,53 +5,69 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 const CreateCategory = ({ onClose, fetchData }) => {
-  const user = useSelector((state) => state.user.user);
-
-  const [stores, setStores] = useState([]);
-  const [userStore, setUserStore] = useState("");
+  const [stores, setStores] = useState([]); // ร้านค้าที่จะกรองตาม userId
+  const [userStore, setUserStore] = useState(""); // _id ของร้านที่ผู้ใช้เลือก
+  const [selectedStoreName, setSelectedStoreName] = useState(""); // ชื่อร้านที่ผู้ใช้เลือก
   const [data, setData] = useState({
-    userID: user?.userID || "",
-    account_name: user?.account_name || "",
-    categoryName: "",
+    categoryName: "", // ชื่อประเภทสินค้า
+    userID: "", // ID ของผู้ใช้
   });
 
-  // ดึงข้อมูลร้านค้าเมื่อ component ถูกสร้างขึ้น
-  useEffect(() => {
-    const fetchStores = async () => {
-      try {
-        const response = await fetch(SummaryApi.getStores.url, {
-          method: "GET",
-          credentials: "include",
-        });
+  const user = useSelector((state) => state?.user?.user); // ดึงข้อมูล user จาก Redux
 
-        const data = await response.json();
-        console.log("Fetched data:", data); // ตรวจสอบข้อมูลที่ได้รับ
+  // ฟังก์ชันดึงข้อมูลร้านค้า
+  const fetchGetStore = async () => {
+    try {
+      const response = await fetch(SummaryApi.getStores.url, {
+        method: SummaryApi.getStores.method,
+        credentials: "include",
+      });
 
-        if (response.ok && data.success) {
-          setStores(data.stores); // เก็บร้านค้าใน state
-          setUserStore(data.stores[0]?.id || ""); // ตั้งค่าเริ่มต้นเป็น store แรก
-        } else {
-          toast.error(data.message || "Failed to load stores");
-        }
-      } catch (error) {
-        console.error("Error fetching stores:", error);
-        toast.error("Error fetching stores");
+      const result = await response.json();
+      console.log("API Response:", result);
+
+      if (response.ok && !result.error) {
+        const userStores = result.stores.filter(
+          (store) => store.userId.toString() === user._id.toString()
+        );
+        setStores(userStores); // เก็บร้านค้าที่ผู้ใช้เป็นเจ้าของ
+      } else {
+        toast.error(result.message || "Failed to load stores.");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+      toast.error("Error fetching stores.");
+    }
+  };
 
-    fetchStores();
-  }, []);
+  // ดึงข้อมูลร้านค้าเมื่อผู้ใช้ล็อกอินสำเร็จ
+  useEffect(() => {
+    if (user && user._id) {
+      fetchGetStore(); // ดึงข้อมูลร้านค้า
+      setData((prev) => ({ ...prev, userID: user._id })); // ตั้งค่า userID
+    }
+  }, [user]);
+
+  // เมื่อผู้ใช้เลือก Store
+  const handleStoreChange = (e) => {
+    const selectedStoreId = e.target.value;
+    setUserStore(selectedStoreId); // เก็บ _id ของร้านที่เลือก
+
+    // หา storeName จาก store ที่เลือก
+    const store = stores.find((s) => s._id === selectedStoreId);
+    if (store) {
+      setSelectedStoreName(store.storeName); // ตั้งค่า storeName
+    }
+  };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleStoreChange = (e) => setUserStore(e.target.value);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...data, storeID: userStore };
+    const payload = { ...data, storeID: userStore, storeName: selectedStoreName };
 
     try {
       const response = await fetch(SummaryApi.createCategory.url, {
@@ -65,8 +81,8 @@ const CreateCategory = ({ onClose, fetchData }) => {
 
       if (responseData.success) {
         toast.success(responseData.message);
-        onClose();
-        if (typeof fetchData === "function") fetchData();
+        onClose(); // ปิด modal
+        if (typeof fetchData === "function") fetchData(); // โหลดข้อมูลใหม่
       } else {
         toast.error(responseData.message);
       }
@@ -94,8 +110,8 @@ const CreateCategory = ({ onClose, fetchData }) => {
           style={{ maxHeight: "60vh" }}
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col mt-4">
-            <label htmlFor="store" className="mt-3">
+          <div>
+            <label htmlFor="storeName" className="block font-medium text-gray-700">
               เลือกร้านค้า (Select Store)
             </label>
             <select
@@ -104,7 +120,7 @@ const CreateCategory = ({ onClose, fetchData }) => {
               onChange={handleStoreChange}
               required
             >
-              <option value="">-- Select Store --</option>
+              <option value="">-- เลือกร้านค้า --</option>
               {stores.map((store) => (
                 <option key={store._id} value={store._id}>
                   {store.storeName}

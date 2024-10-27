@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { BiSolidEdit } from "react-icons/bi";
+import { HiOutlineDocumentReport } from "react-icons/hi";
+import { MdDeleteOutline } from "react-icons/md";
 import moment from "moment";
 import SummaryApi from "../common";
 import CreateCategory from "../components/category/CreateCategory";
 import { toast } from "react-toastify";
+import ViewCategory from "../components/category/ViewCategory";
+import UpdateCategory from "../components/category/UpdateCategory";
 
 const Category = () => {
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
-  const [allCategory, setAllCategory] = useState([]); // เก็บข้อมูลหมวดหมู่
+  const [openUpdateCategory, setOpenUpdateCategory] = useState(false);
+  const [openViewCategory, setOpenViewCategory] = useState(false);
+  const [allCategory, setAllCategory] = useState([]);
+  const [updateUserDetails, setUpdateUserDetails] = useState({});
+  const [ViewCategoryDetails, setViewCategoryDetails] = useState({});
+  const [filterStore, setFilterStore] = useState(""); // เก็บค่าชื่อร้านที่กรอง
 
   const user = useSelector((state) => state?.user?.user); // ดึงข้อมูล user ที่ล็อกอิน
 
-  // ฟังก์ชันสำหรับดึงข้อมูลหมวดหมู่
   const fetchAllCategory = async () => {
     try {
       const response = await fetch(SummaryApi.getCategory.url, {
@@ -20,11 +28,14 @@ const Category = () => {
         credentials: "include",
       });
 
-      const data = await response.json(); // แปลงเป็น JSON
-      console.log("API Response:", data); // Debug: ตรวจสอบข้อมูลที่ได้จาก API
+      const data = await response.json();
+      console.log("API Response:", data); 
 
       if (response.ok && !data.error) {
-        setAllCategory(data.categories); // เก็บข้อมูลหมวดหมู่ใน state (ปรับตามชื่อฟิลด์จาก API)
+        const userCategories = data.categories.filter(
+          (category) => category.userID === user._id
+        );
+        setAllCategory(userCategories);
       } else {
         toast.error(data.message || "Failed to load categories.");
       }
@@ -34,10 +45,28 @@ const Category = () => {
     }
   };
 
-  // ดึงข้อมูลหมวดหมู่เมื่อ component โหลด
   useEffect(() => {
     fetchAllCategory();
   }, []);
+
+  // ฟังก์ชันกรองข้อมูลหมวดหมู่ตามร้านค้า
+  const filteredCategories = allCategory.filter((category) =>
+    category.storeName.toLowerCase().includes(filterStore.toLowerCase())
+  );
+
+  const handleViewCategory = (category) => {
+    setViewCategoryDetails(category);
+    setOpenViewCategory(true);
+  };
+
+  const handleEditCategory = (category) => {
+    setUpdateUserDetails(category);
+    setOpenUpdateCategory(true);
+  };
+
+  const handleDeleteCategory = () => {
+    toast.info("Delete functionality not implemented yet.");
+  };
 
   return (
     <div className="h-screen flex flex-col">
@@ -52,37 +81,64 @@ const Category = () => {
         </button>
       </div>
 
+      {/* Filter ร้านค้า */}
+      <div className="p-4">
+        <input
+          type="text"
+          placeholder="ค้นหาตามชื่อร้าน"
+          value={filterStore}
+          onChange={(e) => setFilterStore(e.target.value)}
+          className="border px-3 py-2 rounded-md w-full"
+        />
+      </div>
+
       {/* ตารางหมวดหมู่ */}
-      <div className="flex-1 overflow-y-auto gap-5 py-2 mt-4">
+      <div className="flex-1 overflow-y-auto gap-5 py-2">
         <table className="w-full userTable">
           <thead>
             <tr className="bg-black text-white">
               <th>ลำดับ</th>
-              <th>ชื่อหมวดหมู่</th>
+              <th>ร้านค้า</th>
+              <th>ประเภทสินค้า</th>
               <th>วันที่ลงทะเบียน</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {allCategory.length > 0 ? (
-              allCategory.map((el, index) => (
-                <tr key={el._id}>
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((category, index) => (
+                <tr key={category._id}>
                   <td>{index + 1}</td>
-                  <td>{el?.categoryName}</td>
-                  <td>{moment(el?.createdAt).format("DD/MM/YYYY")}</td>
-                  <td>
-                    <button
-                      className="bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white"
-                      onClick={() => console.log("Edit category:", el)}
-                    >
-                      <BiSolidEdit />
-                    </button>
+                  <td>{category?.storeName}</td>
+                  <td>{category?.categoryName}</td>
+                  <td>{moment(category.createdAt).format("DD/MM/YYYY")}</td>
+                  <td className="text-center w-24">
+                    <div className="flex justify-center space-x-2">
+                      <button
+                        className="bg-green-100 p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white"
+                        onClick={() => handleViewCategory(category)}
+                      >
+                        <HiOutlineDocumentReport />
+                      </button>
+                      <button
+                        className="bg-blue-100 p-2 rounded-full cursor-pointer hover:bg-blue-500 hover:text-white"
+                        onClick={() => handleEditCategory(category)}
+                      >
+                        <BiSolidEdit />
+                      </button>
+                      <button
+                        className="bg-red-100 p-2 rounded-full cursor-pointer hover:bg-red-500 hover:text-white"
+                        onClick={handleDeleteCategory}
+                      >
+                        <MdDeleteOutline />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="text-center py-4">
+                <td colSpan={5} className="text-center py-4">
                   ไม่มีข้อมูลหมวดหมู่
                 </td>
               </tr>
@@ -91,9 +147,24 @@ const Category = () => {
         </table>
       </div>
 
-      {/* Modal สำหรับสร้างหมวดหมู่ */}
       {openCreateCategory && (
         <CreateCategory onClose={() => setOpenCreateCategory(false)} />
+      )}
+
+      {openViewCategory && (
+        <ViewCategory
+          onClose={() => setOpenViewCategory(false)}
+          category={ViewCategoryDetails}
+          callFunc={fetchAllCategory}
+        />
+      )}
+
+      {openUpdateCategory && (
+        <UpdateCategory
+          onClose={() => setOpenUpdateCategory(false)}
+          category={updateUserDetails}
+          callFunc={fetchAllCategory}
+        />
       )}
     </div>
   );

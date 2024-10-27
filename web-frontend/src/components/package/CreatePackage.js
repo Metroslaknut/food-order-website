@@ -95,388 +95,485 @@ const CreatePackage = ({ onClose, fetchData }) => {
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="countBranch"
-              className="block font-medium text-gray-700"
-            >
-              จำนวนสาขา (Branch)
-            </label>
-            <input
-              type="number"
-              id="countBranch"
-              placeholder="Enter branch name"
-              name="countBranch"
-              value={data.countBranch}
-              onChange={handleOnChange}
-              className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
-              required // บังคับให้เลือก
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="countBranch"
+                className="block font-medium text-gray-700"
+              >
+                จำนวนสาขา (Branch)
+              </label>
+              <input
+                type="number"
+                id="countBranch"
+                placeholder="Enter branch name"
+                name="countBranch"
+                value={data.countBranch}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="countEmployee"
+                className="block font-medium text-gray-700"
+              >
+                จำนวนพนักงาน (Employee)
+              </label>
+              <input
+                type="number"
+                id="countEmployee"
+                placeholder="Enter employee name"
+                name="countEmployee"
+                value={data.countEmployee}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="countEmployee"
-              className="block font-medium text-gray-700"
-            >
-              จำนวนพนักงาน (Employee)
-            </label>
-            <input
-              type="number"
-              id="countEmployee"
-              placeholder="Enter employee name"
-              name="countEmployee"
-              value={data.countEmployee}
-              onChange={handleOnChange}
-              className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
-              required // บังคับให้เลือก
-            />
-          </div>
-
-          {/* ระบบ ePayment */}
-          {/* <label className="mt-3">รองรับ ePayment</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="have ePayment"
-                checked={data.ePayment === true} // ตรวจสอบว่ามีePayment
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    ePayment: e.target.checked,
-                  }))
-                }
-                className="mr-2"
-              />
-              รองรับ
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="no ePayment"
-                checked={data.ePayment === false} // ตรวจสอบว่าไม่มีePayment
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    ePayment: e.target.checked ? false : true,
-                  }))
-                }
-                className="mr-2"
-              />
-              ไม่รองรับ
-            </label>
-          </div>
-          {/* ระบบ report */}
-          {/* <label className="mt-3">รายงานยอดขาย</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="have reportSale"
-                checked={data.reportSale === true} // ตรวจสอบว่ามีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    reportSale: e.target.checked,
-                  }))
-                }
-                className="mr-2"
-              />
-              รองรับ
-            </label> */}
-
-          {/* <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="no reportSale"
-                checked={data.reportSale === false} // ตรวจสอบว่าไม่มีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    reportSale: e.target.checked ? false : true,
-                  }))
-                }
-                className="mr-2"
-              />
-              ไม่รองรับ
-            </label>
-          </div> */}
-
-          {/* ระบบ จัดการพนักงาน */}
-          {/* <label className="mt-3">ระบบจัดการพนักงาน</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="have manageEmployee"
-                checked={data.manageEmployee === true} // ตรวจสอบว่ามีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    manageEmployee: e.target.checked,
-                  }))
-                }
-                className="mr-2"
-              />
-              รองรับ
-            </label> */}
-
-          {/* <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="no manageEmployee"
-                checked={data.manageEmployee === false} // ตรวจสอบว่าไม่มีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    manageEmployee: e.target.checked ? false : true,
-                  }))
-                }
-                className="mr-2"
-              />
-              ไม่รองรับ
-            </label>
-          </div> */}
-
-          {/* รูปเมนู */}
-          {/* <label className="mt-3">รูปเมนู</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="have eMenu"
-                checked={data.eMenu === true} // ตรวจสอบว่ามีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    eMenu: e.target.checked,
-                  }))
-                }
-                className="mr-2"
-              />
-              รองรับ
-            </label> */}
-
-          {/* <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="no eMenu"
-                checked={data.eMenu === false} // ตรวจสอบว่าไม่มีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    eMenu: e.target.checked ? false : true,
-                  }))
-                }
-                className="mr-2"
-              />
-              ไม่รองรับ
-            </label>
-          </div> */}
-
-          {/* ระบบจัดการร้าน */}
-          {/* <label className="mt-3">ระบบจัดการร้าน</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="have manageStore"
-                checked={data.manageStore === true} // ตรวจสอบว่ามีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    manageStore: e.target.checked,
-                  }))
-                }
-                className="mr-2"
-              />
-              รองรับ
-            </label> */}
-
-          {/* <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="no manageStore"
-                checked={data.manageStore === false} // ตรวจสอบว่าไม่มีพนักงาน
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    manageStore: e.target.checked ? false : true,
-                  }))
-                }
-                className="mr-2"
-              />
-              ไม่รองรับ
-            </label>
-          </div> */}
-
-          {/* ระบบออร์เดอร์ผ่าน App */}
-          {/* <label className="mt-3">ออร์เดอร์เดลิเวอรี่</label>
-          <div className="flex flex-col gap-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="grab"
-                checked={data.delivery.grab} // เช็คว่ามีบริการ Grab
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    delivery: { ...prev.delivery, grab: e.target.checked }, // อัพเดทค่า Grab
-                  }))
-                }
-                className="mr-2"
-              />
-              Grab
-            </label>
-            {data.delivery.grab && ( // แสดงรูปภาพ Grab ถ้าเลือก
-              <img
-                src={grabImageUrl}
-                alt="Grab"
-                className="w-20 h-20 object-cover"
-              />
-            )} */}
-
-          {/* <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="lineman"
-                checked={data.delivery.lineman} // เช็คว่ามีบริการ Lineman
-                onChange={(e) =>
-                  setData((prev) => ({
-                    ...prev,
-                    delivery: { ...prev.delivery, lineman: e.target.checked }, // อัพเดทค่า Lineman
-                  }))
-                }
-                className="mr-2"
-              />
-              Lineman
-            </label>
-            {data.delivery.lineman && ( // แสดงรูปภาพ Lineman ถ้าเลือก
-              <img
-                src={linemanImageUrl}
-                alt="Lineman"
-                className="w-20 h-20 object-cover"
-              />
-            )}
-          </div> */}
-
-          {/* ทีม Support */}
-          {/* <label htmlFor="Support" className="mt-3">
-            เวลาทำการ Support
-          </label>
-          <input
-            type="text"
-            id="teamsSupport"
-            placeholder="Enter Teams Support"
-            name="teamsSupport"
-            value={data.teamsSupport}
-            onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
-          /> */}
-
-          <div>
-            <label
-              htmlFor="price"
-              className="block font-medium text-gray-700"
-            >
-              ราคาแพ็คเกจ (Price)
-            </label>
-            <input
-              type="number"
-              id="price"
-              placeholder="Enter price name"
-              name="price"
-              value={data.price}
-              onChange={handleOnChange}
-              className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
-              required // บังคับให้เลือก
-            />
-          </div>
-
-          {/* <label htmlFor="categoryStore" className="mt-3">
-            ประเภทของร้านค้า (Category)
-          </label>
-          <select
-            id="categoryStore"
-            name="categoryStore"
-            value={data.categoryStore}
-            onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
-            required // บังคับให้เลือก
-          >
-            <option value="">เลือกประเภทของร้านค้า</option>
-            <option value="restaurant">ร้านอาหาร</option>
-            <option value="beverage">ร้านเครื่องดื่ม</option>
-            <option value="grocery">ร้านขายของชำ</option>
-          </select> */}
-
-          {/* <label htmlFor="openingHours" className="mt-3">
-            เวลาเปิด-ปิดร้าน (Opening Hours)
-          </label>
-          <div className="flex gap-4">
-            <input
-              type="time"
-              id="openingTime"
-              name="openingTime"
-              value={data.openingTime || ""}
-              onChange={handleOnChange}
-              className="p-2 bg-slate-100 border rounded w-full"
-              placeholder="Enter opening time"
-              required // บังคับให้เลือก
-            />
-
-            <input
-              type="time"
-              id="closingTime"
-              name="closingTime"
-              value={data.closingTime || ""}
-              onChange={handleOnChange}
-              className="p-2 bg-slate-100 border rounded w-full"
-              placeholder="Enter closing time"
-              required // บังคับให้เลือก
-            />
-          </div>
-
-          <label htmlFor="holidays" className="mt-3">
-            วันหยุดประจำ (Weekly Holidays)
-          </label>
-          <select
-            id="holidays"
-            name="holidays"
-            value={data.holidays || ""}
-            onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
-          >
-            <option value="">เลือกวันหยุด</option>
-            <option value="sunday">วันอาทิตย์</option>
-            <option value="monday">วันจันทร์</option>
-            <option value="tuesday">วันอังคาร</option>
-            <option value="wednesday">วันพุธ</option>
-            <option value="thursday">วันพฤหัสบดี</option>
-            <option value="friday">วันศุกร์</option>
-            <option value="saturday">วันเสาร์</option>
-          </select>
-
-          <label className="mt-3">
-            วิธีการชำระเงินที่รองรับ (Payment Methods)
-          </label>
-          <div className="flex flex-col gap-2">
-            {["Cash", "Credit Card", "PromptPay", "Bank Transfer"].map(
-              (method) => (
-                <label key={method} className="flex items-center gap-2">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="ePayment"
+                className="block font-medium text-gray-700"
+              >
+                รองรับ ePayment
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
                   <input
                     type="checkbox"
-                    value={method}
-                    checked={data.paymentMethods.includes(method)}
-                    onChange={(e) => handlePaymentChange(e, method)}
+                    name="ePaymentTrue"
+                    checked={data.ePayment === true} // ตรวจสอบว่ามีePayment
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        ePayment: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
                   />
-                  {method}
+                  รองรับ
                 </label>
-              )
-            )}
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="ePaymentFalse"
+                    checked={data.ePayment === false} // ตรวจสอบว่าไม่มีePayment
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        ePayment: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="reportSale"
+                className="block font-medium text-gray-700"
+              >
+                รายงานยอดขาย
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="reportSaleTrue"
+                    checked={data.reportSale === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        reportSale: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="reportSaleFalse"
+                    checked={data.reportSale === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        reportSale: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="Employee"
+                className="block font-medium text-gray-700"
+              >
+                ระบบจัดการพนักงาน
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="manageEmployeeTrue"
+                    checked={data.manageEmployee === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        manageEmployee: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="manageEmployeeFalse"
+                    checked={data.manageEmployee === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        manageEmployee: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="eMenu"
+                className="block font-medium text-gray-700"
+              >
+                รูปเมนู
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="eMenuTrue"
+                    checked={data.eMenu === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        eMenu: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="eMenuFalse"
+                    checked={data.eMenu === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        eMenu: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="manageStore"
+                className="block font-medium text-gray-700"
+              >
+                ระบบจัดการร้าน
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="manageStoreTrue"
+                    checked={data.manageStore === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        manageStore: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="manageStoreFalse"
+                    checked={data.manageStore === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        manageStore: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="delivery"
+                className="block font-medium text-gray-700"
+              >
+                ออร์เดอร์เดลิเวอรี่
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="deliveryTrue"
+                    checked={data.delivery === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        delivery: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="deliveryFalse"
+                    checked={data.delivery === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        delivery: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="Stock"
+                className="block font-medium text-gray-700"
+              >
+                ระบบจัดการคลังสินค้า
+              </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="stockTrue"
+                    checked={data.stock === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        stock: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="stockFalse"
+                    checked={data.stock === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        stock: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
+            </div>
+
+            {/* <div>
+            <label
+              htmlFor="delivery"
+              className="block font-medium text-gray-700"
+            >
+              ออร์เดอร์เดลิเวอรี่
+            </label>
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="deliveryTrue"
+                  checked={data.delivery === true} // ตรวจสอบว่ามีพนักงาน
+                  onChange={(e) =>
+                    setData((prev) => ({
+                      ...prev,
+                      delivery: e.target.checked,
+                    }))
+                  }
+                  className="mr-2"
+                />
+                รองรับ
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="deliveryFalse"
+                  checked={data.delivery === false} // ตรวจสอบว่าไม่มีพนักงาน
+                  onChange={(e) =>
+                    setData((prev) => ({
+                      ...prev,
+                      delivery: e.target.checked ? false : true,
+                    }))
+                  }
+                  className="mr-2"
+                />
+                ไม่รองรับ
+              </label>
+            </div>
           </div> */}
+          </div>
+
+          <div>
+            <label
+              htmlFor="teamsSupport"
+              className="block font-medium text-gray-700"
+            >
+              เวลาทำการ Support
+            </label>
+            <input
+              type="text"
+              id="teamsSupport"
+              placeholder="Enter Teams Support"
+              name="teamsSupport"
+              value={data.teamsSupport}
+              onChange={handleOnChange}
+              className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="price"
+                className="block font-medium text-gray-700"
+              >
+                ราคาแพ็คเกจ (Price)
+              </label>
+              <input
+                type="number"
+                id="price"
+                placeholder="Enter price name"
+                name="price"
+                value={data.price}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="promotion"
+                className="block font-medium text-gray-700"
+              >
+                ส่วนลดแพ็คเกจ (Promotion)
+              </label>
+              <input
+                type="number"
+                id="promotion"
+                placeholder="Enter price name"
+                name="promotion"
+                value={data.promotion}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="startDate"
+                className="block font-medium text-gray-700"
+              >
+                วันที่เริ่ม (Start date)
+              </label>
+              <input
+                type="date"
+                id="startDate"
+                placeholder="Enter price name"
+                name="startDate"
+                value={data.startDate}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="endDate"
+                className="block font-medium text-gray-700"
+              >
+                วันที่สิ้นสุด (End date)
+              </label>
+              <input
+                type="date"
+                id="endDate"
+                placeholder="Enter price name"
+                name="endDate"
+                value={data.endDate}
+                onChange={handleOnChange}
+                className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
+              />
+            </div>
+          </div>
 
           <button className="px-3 py-2 bg-red-600 text-white mt-5 hover:bg-red-700">
             Create Package

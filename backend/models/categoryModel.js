@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const categorySchema = mongoose.Schema({
-    categoryName : String,
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // เก็บ userID
+    storeID: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true },
+    storeName: { type: String, required: true },
+    categoryName: { type: String, required: true },
 },{
     timestamps : true
 })
