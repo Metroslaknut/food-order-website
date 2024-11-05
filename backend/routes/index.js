@@ -17,6 +17,8 @@ const getCategoryController = require("../controller/category/getCategory");
 const getStoreController = require("../controller/store/getStore");
 const updateStore = require("../controller/store/updateStore");
 const CreatePackage = require("../controller/package/createPackage");
+const getPackageController = require("../controller/package/getPackage");
+const { deleteStore } = require("../controller/store/deleteStore");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
@@ -38,10 +40,13 @@ router.get("/get-category", authToken, getCategoryController)
 
 //store
 router.post("/create-store",authToken,CreateStore)
-router.put("/update-store/:id", authToken, updateStore);
 router.get("/get-store", authToken, getStoreController);
+router.put("/update-store/:id", authToken, updateStore);
+router.delete("/store/:id", authToken, deleteStore);
 
 //package
 router.post("/create-package",authToken,CreatePackage)
+
+router.get("/get-package",authToken,getPackageController)
 
 module.exports = router;

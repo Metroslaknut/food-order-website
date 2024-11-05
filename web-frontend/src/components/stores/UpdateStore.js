@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import SummaryApi from "../../common";
+import { handleError } from "../../helpers/errorHandler";
 
-const UpdateStore = ({ onClose, store, callFunc }) => {
+const UpdateStore = ({ onClose, fetchData, store, refreshStores }) => {
   const [data, setData] = useState({
     storeName: "",
     description: "",
@@ -13,6 +14,8 @@ const UpdateStore = ({ onClose, store, callFunc }) => {
     closingTime: "",
     holidays: "",
     address: "",
+    lat: "",
+    long: "",
     phone: "",
     email: "",
     paymentMethods: [],
@@ -21,7 +24,6 @@ const UpdateStore = ({ onClose, store, callFunc }) => {
     instagram: "",
   });
 
-  // กำหนดค่าเริ่มต้นของฟอร์มด้วยข้อมูลร้านที่ได้รับ
   useEffect(() => {
     if (store) {
       setData(store);
@@ -61,19 +63,20 @@ const UpdateStore = ({ onClose, store, callFunc }) => {
           body: JSON.stringify(data),
         }
       );
-  
+
       const responseData = await response.json();
-  
-      if (response.ok) {
-        // การอัปเดตสำเร็จ
+      if (responseData.success) {
         toast.success(responseData.message);
-      } else {
-        // การอัปเดตไม่สำเร็จ
-        toast.error(responseData.message);
+        refreshStores();
+        onClose();
+        if (typeof fetchData === "function") fetchData();
+      } else if (responseData.error) {
+        // toast.error(responseData.message);
+        handleError({ ...responseData, status: response.status });
       }
     } catch (error) {
-      console.error("Error updating store:", error);
-      toast.error("Failed to update the store.");
+      handleError(error);
+      console.error("เกิดข้อผิดพลาดระหว่างการส่งข้อมูล:", error);
     }
   };
 
@@ -235,6 +238,36 @@ const UpdateStore = ({ onClose, store, callFunc }) => {
               className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
               required // บังคับให้เลือก
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="lat" className="block font-medium text-gray-700">
+                ละติจูด (lat)
+              </label>
+              <input
+                type="text"
+                name="lat"
+                value={data.lat}
+                onChange={handleOnChange}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+
+            <div>
+              <label htmlFor="long" className="block font-medium text-gray-700">
+                ลองจิจูด (long)
+              </label>
+              <input
+                type="text"
+                name="long"
+                value={data.long}
+                onChange={handleOnChange}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
           </div>
 
           <div>

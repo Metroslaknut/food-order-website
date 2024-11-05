@@ -57,9 +57,17 @@ const SummaryApi = {
     url: `${backendDomain}/api/update-store`,
     method: "put",
   },
+  deleteStore: (storeId) => ({
+    url: `${backendDomain}/api/store/${storeId}`,
+    method: "delete",
+  }),
   createPackage: {
     url: `${backendDomain}/api/create-package`,
     method: "post",
+  },
+  getPackage: {
+    url: `${backendDomain}/api/get-package`,
+    method: "get",
   },
 };
 

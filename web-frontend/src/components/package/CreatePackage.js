@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useSelector } from "react-redux"; // นำเข้า useSelector
 import SummaryApi from "../../common";
 import { toast } from "react-toastify";
 
-const CreatePackage = ({ onClose, fetchData }) => {
+const CreatePackage = ({ onClose, fetchData, refreshPackages }) => {
   const [data, setData] = useState({
     packageName: "",
     countBranch: "",
     countEmployee: "",
-    // ePayment: "",
-    // reportSale: "",
-    // manageEmployee: "",
-    // eMenu: "",
-    // manageStore: "",
-    // delivery: {
-    //   grab: false, // สำหรับ Grab
-    //   lineman: false, // สำหรับ Lineman
-    // },
-    // platformOnline: "",
-    // teamsSupport: [], // ต้องมีการกำหนดให้ชัดเจน
+    ePayment: "",
+    reportSale: "",
+    manageEmployee: "",
+    eMenu: "",
+    manageStore: "",
+    delivery: "",
+    stock: "",
+    teamsSupport: "",
+    timesupport: "",
     price: "",
+    promotion: "",
+    startDate: "",
+    endDate: "",
   });
 
   const handleOnChange = (e) => {
@@ -49,6 +49,7 @@ const CreatePackage = ({ onClose, fetchData }) => {
 
       if (responseData.success) {
         toast.success(responseData.message);
+        refreshPackages();
         onClose();
         if (typeof fetchData === "function") fetchData();
       } else if (responseData.error) {
@@ -436,62 +437,62 @@ const CreatePackage = ({ onClose, fetchData }) => {
               </div>
             </div>
 
-            {/* <div>
-            <label
-              htmlFor="delivery"
-              className="block font-medium text-gray-700"
-            >
-              ออร์เดอร์เดลิเวอรี่
-            </label>
-            <div className="flex flex-col gap-2">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="deliveryTrue"
-                  checked={data.delivery === true} // ตรวจสอบว่ามีพนักงาน
-                  onChange={(e) =>
-                    setData((prev) => ({
-                      ...prev,
-                      delivery: e.target.checked,
-                    }))
-                  }
-                  className="mr-2"
-                />
-                รองรับ
+            <div>
+              <label
+                htmlFor="Stock"
+                className="block font-medium text-gray-700"
+              >
+                ทีมซัพพอร์ต
               </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="teamsSupportTrue"
+                    checked={data.teamsSupport === true} // ตรวจสอบว่ามีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        teamsSupport: e.target.checked,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  รองรับ
+                </label>
 
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="deliveryFalse"
-                  checked={data.delivery === false} // ตรวจสอบว่าไม่มีพนักงาน
-                  onChange={(e) =>
-                    setData((prev) => ({
-                      ...prev,
-                      delivery: e.target.checked ? false : true,
-                    }))
-                  }
-                  className="mr-2"
-                />
-                ไม่รองรับ
-              </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="teamsSupportFalse"
+                    checked={data.teamsSupport === false} // ตรวจสอบว่าไม่มีพนักงาน
+                    onChange={(e) =>
+                      setData((prev) => ({
+                        ...prev,
+                        teamsSupport: e.target.checked ? false : true,
+                      }))
+                    }
+                    className="mr-2"
+                  />
+                  ไม่รองรับ
+                </label>
+              </div>
             </div>
-          </div> */}
           </div>
 
           <div>
             <label
-              htmlFor="teamsSupport"
+              htmlFor="timesupport"
               className="block font-medium text-gray-700"
             >
               เวลาทำการ Support
             </label>
             <input
-              type="text"
-              id="teamsSupport"
-              placeholder="Enter Teams Support"
-              name="teamsSupport"
-              value={data.teamsSupport}
+              type="time"
+              id="timesupport"
+              placeholder="Enter time Support"
+              name="timesupport"
+              value={data.timesupport}
               onChange={handleOnChange}
               className="w-full bg-slate-100 mt-1 p-3 border rounded-md"
             />

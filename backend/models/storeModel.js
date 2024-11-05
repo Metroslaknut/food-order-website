@@ -41,6 +41,14 @@ const storeSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    lat: {
+      type: String,
+      required: true,
+    },
+    long: {
+      type: String,
+      required: true,
+    },
     phone: {
       type: String,
       required: true,

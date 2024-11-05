@@ -11,6 +11,8 @@ const ViewStore = ({ onClose, store}) => {
     closingTime: "",
     holidays: "",
     address: "",
+    lat: "",
+    long: "",
     phone: "",
     email: "",
     paymentMethods: [],
@@ -162,6 +164,32 @@ const ViewStore = ({ onClose, store}) => {
               className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
               readOnly
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="lat" className="block font-medium text-gray-700">
+                ละติจูด (lat)
+              </label>
+              <input
+                type="text"
+                value={data.lat}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                readOnly
+              />
+            </div>
+
+            <div>
+              <label htmlFor="long" className="block font-medium text-gray-700">
+                ลองจิจูด (long)
+              </label>
+              <input
+                type="text"
+                value={data.long}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                readOnly
+              />
+            </div>
           </div>
 
           <div>

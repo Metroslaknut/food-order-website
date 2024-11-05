@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"; // นำเข้า useSelector
 import SummaryApi from "../../common";
 import { toast } from "react-toastify";
 
-const CreateStore = ({ onClose, fetchData }) => {
+const CreateStore = ({ onClose, fetchData, refreshStores }) => {
   const user = useSelector((state) => state.user.user); // ดึงข้อมูล user ที่ล็อกอิน
 
   const [data, setData] = useState({
@@ -18,6 +18,8 @@ const CreateStore = ({ onClose, fetchData }) => {
     closingTime: "",
     holidays: "",
     address: "",
+    lat: "",
+    long: "",
     phone: "",
     email: "",
     paymentMethods: [],
@@ -66,6 +68,7 @@ const CreateStore = ({ onClose, fetchData }) => {
 
       if (responseData.success) {
         toast.success(responseData.message);
+        refreshStores();
         onClose();
         if (typeof fetchData === "function") fetchData();
       } else if (responseData.error) {
@@ -73,7 +76,7 @@ const CreateStore = ({ onClose, fetchData }) => {
       }
     } catch (error) {
       toast.error("เกิดข้อผิดพลาดในการเชื่อมต่อ");
-      console.error("Error during submission:", error);
+      console.error("เกิดข้อผิดพลาดระหว่างการส่งข้อมูล:", error);
     }
   };
 
@@ -103,7 +106,7 @@ const CreateStore = ({ onClose, fetchData }) => {
             <input
               type="text"
               id="storeName"
-              placeholder="Enter store name"
+              placeholder="ชื่อร้าค้า"
               name="storeName"
               value={data.storeName}
               onChange={handleOnChange}
@@ -122,7 +125,7 @@ const CreateStore = ({ onClose, fetchData }) => {
             <textarea
               type="text"
               id="description"
-              placeholder="Enter description"
+              placeholder="คำอธิบายร้านค้า"
               name="description"
               value={data.description}
               onChange={handleOnChange}
@@ -247,13 +250,47 @@ const CreateStore = ({ onClose, fetchData }) => {
           <textarea
             type="text"
             id="address"
-            placeholder="Enter address"
+            placeholder="ที่อยู่ร้านค้า"
             name="address"
             value={data.address}
             onChange={handleOnChange}
             className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
             required // บังคับให้เลือก
           />
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="lat" className="block font-medium text-gray-700">
+                ละติจูด (lat)
+              </label>
+              <input
+                type="text"
+                id="lat"
+                placeholder="ละติจูด (lat)"
+                name="lat"
+                value={data.lat}
+                onChange={handleOnChange}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+
+            <div>
+              <label htmlFor="long" className="block font-medium text-gray-700">
+                ลองจิจูด (long)
+              </label>
+              <input
+                type="text"
+                id="long"
+                placeholder="ลองติจูด (long)"
+                name="long"
+                value={data.long}
+                onChange={handleOnChange}
+                className="w-full mt-1 p-3 bg-slate-100 border rounded-md"
+                required // บังคับให้เลือก
+              />
+            </div>
+          </div>
 
           <div>
             <label htmlFor="phone" className="block font-medium text-gray-700">

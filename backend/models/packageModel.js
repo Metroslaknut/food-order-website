@@ -4,7 +4,7 @@ const packageSchema = mongoose.Schema(
   {
     packageName: {
       type: String,
-      required: true 
+      required: true,
     },
     countBranch: {
       type: Number,
@@ -14,42 +14,57 @@ const packageSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    // ePayment: {
-    //   type: Boolean,
-    //   default: false, // หากใช้ ePayment จะเป็น true
-    // },
-    // reportSale: {
-    //   type: Boolean,
-    //   default: false, // หากมีรายงานการขาย จะเป็น true
-    // },
-    // manageEmployee: {
-    //   type: Boolean,
-    //   default: false, // หากจัดการพนักงาน จะเป็น true
-    // },
-    // eMenu: {
-    //   type: Boolean,
-    //   default: false, // หากมี eMenu จะเป็น true
-    // },
-    // manageStore: {
-    //   type: Boolean,
-    //   default: false, // หากจัดการร้านค้า จะเป็น true
-    // },
-    // delivery: {
-    //   type: [String], // Array ของวันหยุด
-    //   required: true,
-    // },
-    // platformOnline: {
-    //   type: Boolean,
-    //   default: false, // หากมีแพลตฟอร์มออนไลน์ จะเป็น true
-    // },
-    
-    // teamsSupport: {
-    //   type: Boolean,
-    //   default: false, // หากมีทีมสนับสนุน จะเป็น true
-    // },
+    ePayment: {
+      type: Boolean,
+      default: false,
+    },
+    reportSale: {
+      type: Boolean,
+      default: false,
+    },
+    manageEmployee: {
+      type: Boolean,
+      default: false,
+    },
+    eMenu: {
+      type: Boolean,
+      default: false,
+    },
+    manageStore: {
+      type: Boolean,
+      default: false,
+    },
+    delivery: {
+      type: Boolean,
+      default: false,
+    },
+    stock: {
+      type: Boolean,
+      default: false,
+    },
+    teamsSupport: {
+      type: Boolean,
+      default: false,
+    },
+    timesupport: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
-      required: true, // ราคาของแพคเกจต้องมีการกำหนด
+      required: true,
+    },
+    promotion: {
+      type: String,
+      default: "",
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
     },
   },
   {
@@ -57,6 +72,6 @@ const packageSchema = mongoose.Schema(
   }
 );
 
-const packageModel = mongoose.model("package", packageSchema); // แก้ชื่อโมเดลเป็น "Package"
+const packageModel = mongoose.model("Package", packageSchema);
 
 module.exports = packageModel;

@@ -60,7 +60,7 @@ const router = createBrowserRouter([
             path: "category",
             element: <Category />,
           },
-          // เพิ่มเมนูย่อยของ Setting
+          // Settings menu
           {
             path: "setting",
             children: [
